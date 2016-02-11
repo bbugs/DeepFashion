@@ -1,0 +1,50 @@
+zappos_ngrams = ['Plus Size',
+                 'Knee Length',
+                 'Tea Length',
+                 'Little Black Dress',
+                 'Wear to Work',
+                 'Mother of the Bride',
+                 'A - line',
+                 'High Waist',
+                 'Wrap Dress',
+                 'High Low',
+                 'Baby Doll',
+                 'One Shoulder',
+                 'Dropped Waist',
+                 'Cover Up',
+                 'Short Sleeves',
+                 '3 4 Sleeve',
+                 '3 4 Sleeves',
+                 'Long Sleeves',
+                 'V - neck',
+                 'Off The Shoulder',
+                 'Mock Turtleneck',
+                 '1 4 Zip',
+                 'Animal Print',
+                 'Faux Leather',
+                 'Action Sports',
+                 'Floral Print',
+                 'Horizontal Stripes',
+                 'Tie - Dye',
+                 'Vertical Stripes',
+                 'Animal Print',
+                 'Polka Dot',
+                 'Leopard Print',
+                 'Snake Print',
+                 'Pin Stripes',
+                 'Dip - Dyed',
+                 'Zebra Print',
+                 'Cheetah Print',
+                 'Tattoo Print',
+                 'Cut - Outs',
+                 'Faux Pockets'
+                 '3 4 length',
+                 'short sleeve',
+                 'mid thigh'
+                 ]
+zappos_ngrams = [z.lower().replace('-', '') for z in zappos_ngrams]
+
+zappos_ngrams = [tuple(z.split()) for z in zappos_ngrams]
+
+# print zappos_ngrams
+

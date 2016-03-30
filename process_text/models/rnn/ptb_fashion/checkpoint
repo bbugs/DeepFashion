@@ -1,0 +1,2 @@
+model_checkpoint_path: "small_model_only_zappos.ckpt"
+all_model_checkpoint_paths: "small_model_only_zappos.ckpt"

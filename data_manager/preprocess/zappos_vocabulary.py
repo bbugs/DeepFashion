@@ -1,4 +1,4 @@
-fname = '/Users/susanaparis/Documents/Belgium/DeepFashion/data/zappos_vocab/zappos_vocab.txt'
+fname = '/Users/susanaparis/Documents/Belgium/DeepFashion/data/fashion53k/vocab/vocab_zappos.txt'
 
 with open(fname, 'r') as f:
     zappos_words = f.read().replace('-', ' ').replace('/', ' ').split('\n')
@@ -62,6 +62,8 @@ ZAPPOS_VOCAB_LIST = ['_'.join(z) for z in ZAPPOS_VOCAB_TUPLES]
 #
 # print zappos_ngrams
 
+for w in ZAPPOS_VOCAB_LIST:
+    print w
 
 
 

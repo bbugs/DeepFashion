@@ -87,7 +87,7 @@ if __name__ == "__main__":
                         help='path to json file')
 
     parser.add_argument('--data_out_directory', dest='data_out_directory', type=str,
-                        default='../../../../data/fashion53k/csv/',
+                        default='../../../../data/fashion53k/csv/text/',
                         help='zappos: options: "no", "with_ngrams", "only"')
 
     args = parser.parse_args()

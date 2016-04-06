@@ -15,8 +15,8 @@ range = 1/sqrt(6*fanIn + fanOut);
 Wsem = -range + (2*range).*rand(params.h,fanIn);
 
 % image side mapping is just a linear transform
-fanIn = params.imgDim;
-fanOut = params.h ;
+fanIn = params.imgDim;  % 4097
+fanOut = params.h ;  %700
 range = 1/sqrt(6*fanIn + fanOut);
 Wi2s = -range + (2*range).*rand(fanOut,fanIn);
 

@@ -1,7 +1,7 @@
 
 %% Load csv with image info
 clear all;
-target_split = 'train';
+target_split = 'val';
 fname = sprintf('../../data/fashion53k/csv/imgs/imgs_info_%s.csv', target_split);
 
 % img_id	split	folder	img_filename
@@ -52,7 +52,7 @@ for i = 1:length(img_ids)
 end
 
 %%
-fname = sprintf('../../data/fashion53k/matlab_structs/split_%s_img_new.mat', target_split);
+fname = sprintf('../../data/fashion53k/matlab_structs/imgs/split_%s_img.mat', target_split);
 save(fname, 'Img', '-v7.3')
 
 

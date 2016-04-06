@@ -54,8 +54,8 @@ for i = 1:N
     sentTriplesCell{i} = ts;
     sentVecICell{i} = ones(size(z,2), 1)*i;
 end
-sentVecI = cat(1, sentVecICell{:});
-allSentVecs = cat(2, sentVecsCell{:});
+sentVecI = cat(1, sentVecICell{:});  % sus: concatenate along dimension 1
+allSentVecs = cat(2, sentVecsCell{:}); % sus: concatenate along dimension 2
 Ns = size(allSentVecs, 2);
 
 % compute fragment scores

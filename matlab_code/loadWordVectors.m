@@ -2,7 +2,7 @@ function [oWe, vocab, wordMap] = loadWordVectors(params)
     
     % load word vector mappings
     word_dim = 200;
-    fsave = sprintf('common/wordvecs_%dd.mat', word_dim);
+    fsave = sprintf('../../../data/word_vects/wordvecs_%dd.mat', word_dim);
     
     if nargout == 1 % for speed
         vocab = 0;

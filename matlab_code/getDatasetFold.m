@@ -3,10 +3,28 @@ function split = getDatasetFold(params, fold)
 
 dataset = params.dataset;
 
-% Assemble the split: we store everything independently for more modularity
-load(sprintf('%s/split_%s_meta.mat', dataset, fold), 'meta', 'itos', 'stoi');
-load(sprintf('%s/split_%s_sent_deptrees.mat', dataset, fold), 'Sent');
-load(sprintf('%s/split_%s_img.mat', dataset, fold), 'Img');
+rpath = sprintf('../../../data/%s/matlab_structs/', dataset);
+
+if strcmp(params.dataset, 'pascal1k')
+    % Assemble the split: we store everything independently for more modularity
+    load(sprintf('%s/split_%s_meta.mat', dataset, fold), 'meta', 'itos', 'stoi');
+    load(sprintf('%s/split_%s_sent_deptrees.mat', dataset, fold), 'Sent');
+    load(sprintf('%s/split_%s_img.mat', dataset, fold), 'Img');
+elseif strcmp(params.dataset, 'fashion53k')
+    
+    % Assemble the split: we store everything independently for more modularity
+    
+    fname = strcat(rpath, sprintf('meta/split_%s_meta.mat', fold));
+    load(fname, 'meta', 'itos', 'stoi');
+    
+    fname = strcat(rpath, sprintf('no_zappos/split_%s_sent.mat', fold));
+    load(fname, 'Sent');
+    
+    fname = strcat(rpath, sprintf('imgs/split_%s_img.mat', fold));
+    load(fname, 'Img');
+end
+
+
 
 % assemble the split
 split = struct;

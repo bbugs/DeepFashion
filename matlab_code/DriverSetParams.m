@@ -2,7 +2,7 @@
 params = struct();
 
 %% data
-params.dataset = '../data/pascal1k';
+params.dataset = 'pascal1k';
 
 %% misc practical params
 params.fappend = '';
@@ -54,3 +54,5 @@ params.maxaccum = false;
 
 %% susana params
 params.sus_depTree = false;
+params.sus_toy = true;
+params.dataset = 'fashion53k';

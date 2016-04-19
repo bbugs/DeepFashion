@@ -79,7 +79,7 @@ hist_e3t = [];
 fprintf('starting optimization...\n');
 while iter <= maxiters
     fprintf('iter')
-    iter
+    
     % modulate MIL in params
     current_epoch = iter/maxiters*params.maxepochs;
     if params.usemil
@@ -201,7 +201,7 @@ while iter <= maxiters
         report.train_score = score;
         
         % report results to results file
-        writeTextFile('cv/defrag_results.txt', sprintf('[%s] %s: iteration %d/%d (%.2f%% done) val score %f, train score %f', datestr(clock, 0), node_name, iter, maxiters, 100*iter/maxiters, report.val_score, report.train_score));
+        writeTextFile('../../../data/fashion53k/cv/defrag_results.txt', sprintf('[%s] %s: iteration %d/%d (%.2f%% done) val score %f, train score %f', datestr(clock, 0), node_name, iter, maxiters, 100*iter/maxiters, report.val_score, report.train_score));
         
         p = params; % make a params copy
         p.f = 0; % take out the functions, they cause trouble when we try to save a function into .mat file
@@ -214,12 +214,12 @@ while iter <= maxiters
             top_train_score = max(0.5*(hist_e2t + hist_e3t));
             randnum = floor(rand()*10000);
             if ~isempty(fappend)
-                fsave = sprintf('cv/endreport_%s_%s_%d_%.0f_%.0f.mat', fappend, params.dataset, randnum, top_val_score, top_train_score);
+                fsave = sprintf('../../../data/fashion53k/cv/h_1000_batch_100_cvpr_setting/endreport_%s_%s_%d_%.0f_%.0f.mat', fappend, params.dataset, randnum, top_val_score, top_train_score);
             else
-                fsave = sprintf('cv/endreport_%s_%d_%.0f_%.0f.mat', params.dataset, randnum, top_val_score, top_train_score);
+                fsave = sprintf('../../../data/fashion53k/cv/h_1000_batch_100_cvpr_setting/endreport_%s_%d_%.0f_%.0f.mat', params.dataset, randnum, top_val_score, top_train_score);
             end
             save(fsave, 'report'); % save the report, but no need for the actual parameter vector theta
-            writeTextFile('cv/defrag_results.txt', sprintf('%s: saved end report to %s', node_name, fsave));
+            writeTextFile('../../../data/fashion53k/cv/h_1000_batch_100_cvpr_setting/defrag_results.txt', sprintf('%s: saved end report to %s', node_name, fsave));
         end
         
         % check if the performance is best so far, and if so save results
@@ -231,11 +231,11 @@ while iter <= maxiters
             report.decodeInfo = decodeInfo;
             
             if ~isempty(fappend)
-                fsave = sprintf('cv/defrag_%s_%s_%s_m%d_l%d_g%d_%.0f.mat', fappend, params.dataset, node_name, params.usemil, params.uselocal, params.useglobal, report.val_score);
+                fsave = sprintf('../../../data/fashion53k/cv/h_1000_batch_100_cvpr_setting/defrag_%s_%s_%s_m%d_l%d_g%d_%.0f.mat', fappend, params.dataset, node_name, params.usemil, params.uselocal, params.useglobal, report.val_score);
             else
-                fsave = sprintf('cv/defrag_%s_%s_m%d_l%d_g%d_%.0f.mat', params.dataset, node_name, params.usemil, params.uselocal, params.useglobal, report.val_score);
+                fsave = sprintf('../../../data/fashion53k/cv/h_1000_batch_100_cvpr_setting/defrag_%s_%s_m%d_l%d_g%d_%.0f.mat', params.dataset, node_name, params.usemil, params.uselocal, params.useglobal, report.val_score);
             end
-            writeTextFile('cv/defrag_results.txt', sprintf('%s: saved checkpoint to %s', node_name, fsave));
+            writeTextFile('../../../data/fashion53k/cv/h_1000_batch_100_cvpr_setting/defrag_results.txt', sprintf('%s: saved checkpoint to %s', node_name, fsave));
             
             % save checkpoint
             save(fsave, 'report');

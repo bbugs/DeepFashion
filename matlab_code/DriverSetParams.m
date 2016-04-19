@@ -30,7 +30,7 @@ params.momentum = 0.9; % for sgd
 params.lrreduce = 1; % as a fraction of maxiters, LR will be decreased x 0.1. 1 = dont
 params.lr = 1e-5; % learning rate
 params.regC = 2e-10; % L2 regularization strength
-params.batch_size = 35; % for minibatches
+params.batch_size = 100; % for minibatches
 params.method = 0; % sgd. 1 = adadelta, 2 = adagrad
 
 %% defrag model setup
@@ -41,7 +41,7 @@ if tt>=2, params.uselocal = true; params.useglobal = true; end
 params.usemil = true;
 params.actFunc = 'rectMax';
 
-params.h = 700; % size of semantic space
+params.h = 1000; % size of semantic space
 
 params.gmargin = 40;
 params.gscale = 0.5;
@@ -49,10 +49,10 @@ params.gscale = 0.5;
 params.lmargin = 1;
 params.lscale = 1;
 
-params.thrglobalscore = 1; % when computing global score, threshold fragment scores at 0?
-params.maxaccum = false;
+params.thrglobalscore = 0; % when computing global score, threshold fragment scores at 0?
+params.maxaccum = true;
 
 %% susana params
 params.sus_depTree = false;
-params.sus_toy = true;
+params.sus_toy = false;
 params.dataset = 'fashion53k';

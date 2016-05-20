@@ -1,3 +1,21 @@
+"""
+Create interim files to be later used for training LSTM inspired by the ptb model from tensorflow
+
+Concatenate the text from the json file into one (interim) file containing only text.
+
+Each sentence from each product in the json file is written as one line in the interim file
+
+Before writing to the interim file, the sentence is cleaned according to the method in pp_utils clean_text.
+
+I write an interim file because in a later step (create_text_data.py), I read the interim file and add tokens <sos>, <eos>, <unk>, for start of sentence, end of sentence and unkown token according to a vocabulary.
+
+This is inspired by the tensorflow example on the ptb data, where each sentence is given in one line.
+
+For details about the ptb data from tensorflow see:
+/Users/susanaparis/Documents/Belgium/Deep_Learning/udacity_exercises/tensorflow/tensorflow/examples/udacity/simple-examples/data
+
+"""
+
 
 import argparse
 import json
@@ -67,7 +85,7 @@ if __name__ == "__main__":
 
     parser.add_argument('--data_out_directory', dest='data_out_directory', type=str,
                         default='../../../../data/fashion53k/text/concat_interim/',
-                        help='zappos: options: "no", "with_ngrams", "only"')
+                        help='directory to save the interim files')
 
     args = parser.parse_args()
     params = vars(args)  # convert to ordinary dict

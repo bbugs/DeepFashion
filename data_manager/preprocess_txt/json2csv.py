@@ -1,9 +1,11 @@
 """
 Read in json file dataset_dress_all.json and output csv file with the following columns
 
+img_id,  sent_id,   split,   asin,  folder,   sentence
 
-img_id sent_id split asin sentence
+The csv files are then used to create the matlab structs for karpathy's code.
 
+Before writing to a csv file, the text is cleaned using the methods in pp_utils
 
 """
 import argparse
@@ -13,6 +15,7 @@ from pp_utils import get_sentences_from_item
 
 
 class FoutConfig(object):
+
     def __init__(self, dir_out, with_zappos):
         if with_zappos == 'no':
             fout = dir_out + 'fashion53k_no_zappos.csv'
@@ -82,17 +85,17 @@ if __name__ == "__main__":
     parser.add_argument('-z', '--zappos', dest='zappos', type=str, default='only',
                         help='zappos: options: "no", "with_ngrams", "only"')
 
-    parser.add_argument('--data_in_fname', dest='data_in_fname', type=str,
-                        default='../../../../data/fashion53k/json/dataset_dress_all.json',
+    parser.add_argument('-din', '--data_in_fname', dest='data_in_fname', type=str,
+                        default='../../data/fashion53k/json/dataset_dress_all.json',
                         help='path to json file')
 
-    parser.add_argument('--data_out_directory', dest='data_out_directory', type=str,
-                        default='../../../../data/fashion53k/csv/text/',
-                        help='zappos: options: "no", "with_ngrams", "only"')
+    parser.add_argument('-dout', '--data_out_directory', dest='data_out_directory', type=str,
+                        default='../../data/fashion53k/csv/text/',
+                        help='where to save the csv file"')
 
     args = parser.parse_args()
 
     main()
 
-    # example call
-    # python concat_all_txt_interim.py -s train -z no
+    # example call from dress_project directory
+    #     python data_manager/preprocess_txt/json2csv.py -z no

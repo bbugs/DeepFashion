@@ -38,7 +38,7 @@ dress_vocab = C{1};
 
 
 %% Load glove or word2vec vocabulary
-fname = '../../data/word_vects/vocab.txt';
+fname = '../../data/word_vects/glove/vocab.txt';
 fid = fopen(fname, 'rt');
 C = textscan(fid, '%s', 'HeaderLines', 0, 'CollectOutput', true);
 fclose(fid);
@@ -93,7 +93,8 @@ for j = 1:length(sentences)
     
 end
 
-fname = sprintf('../../data/fashion53k/matlab_structs/no_zappos/split_%s_sent.mat', which_split);
+% save matlab struct
+fname = sprintf('../../data/fashion53k/matlab_structs/%s/split_%s_sent.mat', with_zappos, which_split);
 save(fname, 'Sent')
 
 

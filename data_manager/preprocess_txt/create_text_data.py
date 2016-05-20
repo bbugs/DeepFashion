@@ -1,5 +1,9 @@
 """
+This script assumes interim text files have been created.
+
 Read in interim files to create files that can be fed to the lstm ptb_fashion model
+
+I read the interim file and add tokens <sos>, <eos>, <unk>, for start of sentence, end of sentence and unkown token according to a vocabulary.
 """
 
 # read in the vocabulary

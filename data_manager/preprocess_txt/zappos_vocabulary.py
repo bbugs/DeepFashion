@@ -62,8 +62,8 @@ ZAPPOS_VOCAB_LIST = ['_'.join(z) for z in ZAPPOS_VOCAB_TUPLES]
 #
 # print zappos_ngrams
 
-for w in ZAPPOS_VOCAB_LIST:
-    print w
+# for w in ZAPPOS_VOCAB_LIST:
+#     print w
 
 
 # plus_size

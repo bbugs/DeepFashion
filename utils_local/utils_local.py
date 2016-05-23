@@ -60,9 +60,34 @@ def savetxt_compact(fname, x, fmt="%.6g", delimiter=','):
             fh.write(line + '\n')
 
 
+def create_zappos_vocabulary(fname = '../../data/fashion53k/vocab/zappos_raw_words.txt',
+                             out_fname='../../data/fashion53k/vocab/zappos.vocab.txt'):
+    """
+
+    """
+    with open(fname, 'r') as f:
+        zappos_words = f.read().replace('-', ' ').replace('/', ' ').split('\n')
+
+    zv = [z.lower() for z in zappos_words]
+    zappos_vocab_tuples = [tuple(z.split()) for z in zv]
+
+    zappos_vocab_list = ['_'.join(z) for z in zappos_vocab_tuples]
+
+    ff = open(out_fname, 'w')
+    for w in zappos_vocab_list:
+        ff.write(w + '\n')  # write a word per line to the out file
+    ff.close()
+    return
+
+
 if __name__ == '__main__':
 
     # see populate_excluded_phrases_user_input.py
+
+    create_zappos_vocabulary(fname='../../data/fashion53k/vocab/zappos_raw_words.txt',
+                             out_fname='../../data/fashion53k/vocab/zappos.vocab.txt')
+
+
     pass
 
 

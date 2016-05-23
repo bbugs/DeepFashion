@@ -1,8 +1,21 @@
 About this directory
 ==============
 
+Cleaning the text on the original json files
+--------------
+
+- Read the original json file and write a new one with clean text
+
+From the mac, while Paris directories are mounted, you can run
+    
+    $ python data_manager/preprocess_txt/data_cleaner.py
+
+*data_cleaner.py* requires *pp_utils.py*
+
 This directory contains roughly two groups of files:
-  
+--------------
+
+  - Read the original json file and write a new one with clean text
   - Preprocessing of text to be used with the **LSTM model from tensorflow**.
   - Preprocessing of text to be used to generate the **matlab structures for Karpathy**.
   

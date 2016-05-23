@@ -48,9 +48,11 @@ def clean_text(dirty_text, with_zappos):
         if with_zappos == 'with_ngrams':
             # keep all words (even those not in zappos), but group zappos ngrams into one token
             words = TOKENIZER_MWE.tokenize(words)  # group zappos_ngrams into one token.
-        elif with_zappos == 'only':
+        elif with_zappos == 'only_zappos':
             words = TOKENIZER_MWE.tokenize(words)  # group zappos_ngrams into one token.
             words = [w for w in words if w in ZAPPOS_VOCAB_LIST]  # only keep words in the zappos vocabulary
+
+        words = [w for w in words if (not w.isdigit() or w == '3/4')]  # remove words that are just digits, but leave 3/4
 
         words_concat = ' '.join(words) + '\n'
         out_clean_text += words_concat

@@ -21,13 +21,15 @@ class DataCleaner(object):
 
         return
 
-    def json2clean_json(self, target_split="train", with_zappos="no", out_filename=""):
+    def json2clean_json(self, target_split="train",
+                        external_vocab_filename=None,
+                        external_vocab_level="with_ngrams",
+                        out_filename=""):
         """
-        from the json file containing the raw dataset, create a new json file, where some cleaning has been done.
+        from the json file containing the raw dataset, create a new json file after cleaning the text
         The cleaning is specified in clean_text() method in pp_utils.
-        It is also possible to specify whether the new json file should become aware of the zappos vocabulary.
-        If the zappos vocabulary is not desired, then use with_zappos = "no".  Right now, we only support the zappos
-        vocabulary but later on we can support any external vocabulary.
+        It is also possible to specify whether the new json file should become aware of an external vocabulary.
+        If the zappos vocabulary is not desired, then use externa_vocab_level = "no" and external_vocab_filename=None
         """
 
         data = self.dataset
@@ -41,7 +43,7 @@ class DataCleaner(object):
                 print "item", i
             new_text = ''
             if item['split'] == target_split:
-                sentence_list = get_sentences_from_item(item, with_zappos=with_zappos)
+                sentence_list = get_sentences_from_item(item, external_vocab_filename, external_vocab_level)
                 for l in sentence_list:
                     if len(l) == 0:
                         continue
@@ -70,21 +72,27 @@ if __name__ == '__main__':
     dataset_fname = '../../data/fashion53k/json/dataset_dress_all_{}.json'.format(split)
     out_filename = '../../data/fashion53k/json/{}/dataset_dress_all_{}.clean.json'.format(with_zappos, split)
     dc = DataCleaner(dataset_fname=dataset_fname)
-    dc.json2clean_json(target_split=split, with_zappos=with_zappos,
+    dc.json2clean_json(target_split=split,
+                       external_vocab_filename=None,
+                       external_vocab_level="no",
                        out_filename=out_filename)
 
     split = "val"
     dataset_fname = '../../data/fashion53k/json/dataset_dress_all_{}.json'.format(split)
     out_filename = '../../data/fashion53k/json/{}/dataset_dress_all_{}.clean.json'.format(with_zappos, split)
     dc = DataCleaner(dataset_fname=dataset_fname)
-    dc.json2clean_json(target_split=split, with_zappos=with_zappos,
+    dc.json2clean_json(target_split=split,
+                       external_vocab_filename=None,
+                       external_vocab_level="no",
                        out_filename=out_filename)
 
     split = "train"
     dataset_fname = '../../data/fashion53k/json/dataset_dress_all_{}.json'.format(split)
     out_filename = '../../data/fashion53k/json/{}/dataset_dress_all_{}.clean.json'.format(with_zappos, split)
     dc = DataCleaner(dataset_fname=dataset_fname)
-    dc.json2clean_json(target_split=split, with_zappos=with_zappos,
+    dc.json2clean_json(target_split=split,
+                       external_vocab_filename=None,
+                       external_vocab_level="no",
                        out_filename=out_filename)
 
     ########################################################################################
@@ -92,30 +100,37 @@ if __name__ == '__main__':
     ########################################################################################
 
     with_zappos = "with_ngrams"
+    external_vocab_fname = "../../data/fashion53k/vocab/zappos.vocab.txt"
 
     split = "test"
     dataset_fname = '../../data/fashion53k/json/dataset_dress_all_{}.json'.format(split)
     out_filename = '../../data/fashion53k/json/{}/dataset_dress_all_{}.clean.json'.format(with_zappos, split)
     dc = DataCleaner(dataset_fname=dataset_fname)
-    dc.json2clean_json(target_split=split, with_zappos=with_zappos,
+    dc.json2clean_json(target_split=split,
+                       external_vocab_filename=external_vocab_fname,
+                       external_vocab_level="with_ngrams",
                        out_filename=out_filename)
 
     split = "val"
     dataset_fname = '../../data/fashion53k/json/dataset_dress_all_{}.json'.format(split)
     out_filename = '../../data/fashion53k/json/{}/dataset_dress_all_{}.clean.json'.format(with_zappos, split)
     dc = DataCleaner(dataset_fname=dataset_fname)
-    dc.json2clean_json(target_split=split, with_zappos=with_zappos,
+    dc.json2clean_json(target_split=split,
+                       external_vocab_filename=external_vocab_fname,
+                       external_vocab_level="with_ngrams",
                        out_filename=out_filename)
 
     split = "train"
     dataset_fname = '../../data/fashion53k/json/dataset_dress_all_{}.json'.format(split)
     out_filename = '../../data/fashion53k/json/{}/dataset_dress_all_{}.clean.json'.format(with_zappos, split)
     dc = DataCleaner(dataset_fname=dataset_fname)
-    dc.json2clean_json(target_split=split, with_zappos=with_zappos,
+    dc.json2clean_json(target_split=split,
+                       external_vocab_filename=external_vocab_fname,
+                       external_vocab_level="with_ngrams",
                        out_filename=out_filename)
 
     ########################################################################################
-    ##  With Zappos ngrams
+    ##  With zappos vocabulary only
     ########################################################################################
 
     with_zappos = "only_zappos"
@@ -124,19 +139,25 @@ if __name__ == '__main__':
     dataset_fname = '../../data/fashion53k/json/dataset_dress_all_{}.json'.format(split)
     out_filename = '../../data/fashion53k/json/{}/dataset_dress_all_{}.clean.json'.format(with_zappos, split)
     dc = DataCleaner(dataset_fname=dataset_fname)
-    dc.json2clean_json(target_split=split, with_zappos=with_zappos,
+    dc.json2clean_json(target_split=split,
+                       external_vocab_filename=external_vocab_fname,
+                       external_vocab_level="only",
                        out_filename=out_filename)
 
     split = "val"
     dataset_fname = '../../data/fashion53k/json/dataset_dress_all_{}.json'.format(split)
     out_filename = '../../data/fashion53k/json/{}/dataset_dress_all_{}.clean.json'.format(with_zappos, split)
     dc = DataCleaner(dataset_fname=dataset_fname)
-    dc.json2clean_json(target_split=split, with_zappos=with_zappos,
+    dc.json2clean_json(target_split=split,
+                       external_vocab_filename=external_vocab_fname,
+                       external_vocab_level="only",
                        out_filename=out_filename)
 
     split = "train"
     dataset_fname = '../../data/fashion53k/json/dataset_dress_all_{}.json'.format(split)
     out_filename = '../../data/fashion53k/json/{}/dataset_dress_all_{}.clean.json'.format(with_zappos, split)
     dc = DataCleaner(dataset_fname=dataset_fname)
-    dc.json2clean_json(target_split=split, with_zappos=with_zappos,
+    dc.json2clean_json(target_split=split,
+                       external_vocab_filename=external_vocab_fname,
+                       external_vocab_level="only",
                        out_filename=out_filename)

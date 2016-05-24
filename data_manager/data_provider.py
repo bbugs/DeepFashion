@@ -3,6 +3,22 @@ import json
 from utils_local import utils_local
 import numpy as np
 import csv
+import os
+import collections
+
+
+def get_vocabulary_words_with_counts(txt, min_word_freq):
+    """(str, int) -> list
+    Extract the vocabulary from a string that occur more than min_word_freq.
+    Return a list of the vocabulary and the frequencies.
+    """
+
+    data = txt.split()
+    counter = collections.Counter(data)
+    count_pairs = sorted(counter.items(), key=lambda x: (-x[1], x[0]))
+    # keep words that occur more than min_word_freq
+    top_count_pairs = [pair for pair in count_pairs if pair[1] > min_word_freq]
+    return top_count_pairs
 
 
 class DataStats(object):
@@ -14,7 +30,9 @@ class DataStats(object):
         Load data
         item_type can be dresses,
         """
-        self.dataset = utils_local.load_data0(dataset_fname)
+        with open(dataset_fname, 'r') as f:
+            self.dataset = json.load(f)
+
         self.item_type = item_type
 
 
@@ -38,7 +56,8 @@ class DataProvider(object):
     def __init__(self, dataset_fname='dataset/dataset_dress_all.json'):
         """
         """
-        self.dataset = utils_local.load_data0(dataset_fname)
+        with open(dataset_fname, 'r') as f:
+            self.dataset = json.load(f)
 
         return
 
@@ -117,6 +136,63 @@ class DataProvider(object):
         csvfile.close()
         return
 
+    def json2txt_file(self, fout_name):
+        """
+        Read json file corresponding and write a txt file with
+        all the text from the json file one line for each line.
+        Assume that the text on json is already clean.
+        Here we lose all the info of which product belongs to what,
+        but this is useful when you just want to see all
+        the text, like when training an LSTM based on text alone
+        """
+
+        f = open(fout_name, 'w')
+
+        i = 0
+        for item in self.dataset['items']:
+            text = item['text']
+            sentences = text.split('\n ')  # assume that sentences end with "\n "
+            for l in sentences:
+                if len(l) == 0:
+                    continue
+                if not l.strip().isspace():
+                    f.write(l + '\n')
+            i += 1
+
+        return
+
+    def get_all_txt_from_json(self):
+
+        """
+        Concatenate all text from json and return it.
+        """
+
+        self.json2txt_file("tmp.txt")  # save a temp file with all the text
+        with open("tmp.txt", 'r') as f:
+            txt = f.read()
+
+        os.remove("tmp.txt")  # remove temp file
+
+        return txt
+
+    def get_vocab_words_from_json(self, min_word_freq=5):
+        """
+        Get vocab words from json
+        """
+        all_text = self.get_all_txt_from_json()
+        vocab_with_counts = get_vocabulary_words_with_counts(all_text, min_word_freq)
+        vocab_words = [w[0] for w in vocab_with_counts]
+        return vocab_words
+
+    def get_vocab_words_from_json_with_counts(self, min_word_freq=5):
+        """
+        Get vocab words from json
+        """
+        all_text = self.get_all_txt_from_json()
+        return get_vocabulary_words_with_counts(all_text, min_word_freq)
+
+
+
 
 if __name__ == '__main__':
     # d = DataStats()
@@ -142,12 +218,25 @@ if __name__ == '__main__':
     # d.save_json_splits(splits, fout_name, save=True)
 
     # Create csv files with image info
-    root_path = '../../data/fashion53k/'
-    target_split = 'train'
-    fname = root_path + 'json/dataset_dress_all_{}.json'.format(target_split)
-    fout_name = root_path + 'csv/imgs/imgs_info_{}.csv'.format(target_split)
-    d = DataProvider(dataset_fname=fname)
-    d.json2csv_imgs(target_split, fout_name)
+    # root_path = '../../data/fashion53k/'
+    # target_split = 'train'
+    # fname = root_path + 'json/dataset_dress_all_{}.json'.format(target_split)
+    # fout_name = root_path + 'csv/imgs/imgs_info_{}.csv'.format(target_split)
+    # d = DataProvider(dataset_fname=fname)
+    # d.json2csv_imgs(target_split, fout_name)
 
+    # dp = DataProvider("../../data/fashion53k/json/no_zappos/dataset_dress_all_train.clean.json")
+    # dp.json2txt_file(fout_name="tmp.txt")
+
+    # Test the get_vocabulary_words_with_freq method
+    # text = """remedios boutique v neck chiffon sheath bridesmaid evening dress w keyhole back\n back with zipper fully lined built in bra\n for our ladies dresses should play an important role in our life while presenting in any formal or informal occasions and even in daily life\n here our shop remedios boutique is aimed to provide various kinds of dresses for your choices\n whether for a bridal party or other special occasions such as quinceanera party prom party etc you can find our dresses for yourself in different silhouettes and styles mainly textured in satin chiffon satin chiffon etc and with a variety of colors\n """
+    #
+    # print get_vocabulary_words_with_freq(text, min_word_freq=3)
+
+    dp = DataProvider(dataset_fname="../../data/fashion53k/json/only_zappos/dataset_dress_all_test.clean.json")
+    text = dp.get_all_txt_from_json()
+    print get_vocabulary_words_with_counts(text, min_word_freq=5)
+
+    pass
 
 

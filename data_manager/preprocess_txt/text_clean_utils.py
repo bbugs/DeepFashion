@@ -54,7 +54,7 @@ def clean_text(dirty_text, external_vocab_filename=None, external_vocab_level="n
 
     sentences = []
     for rs in rough_sentences:
-        rs = rs.replace("3/4", "3_4")  # just to keep the 3/4
+        rs = rs.replace("3/4", "3_4")  # just to keep the 3/4 as 3_4
         sentences.extend(SENT_TOKENIZER.tokenize(rs))  # sentences based on NLTK tokenizer
 
     for sentence in sentences:
@@ -77,7 +77,7 @@ def clean_text(dirty_text, external_vocab_filename=None, external_vocab_level="n
 
 def get_sentences_from_item(item, external_vocab_filename, external_vocab_level):
     """(dict, str, str) -> list
-    Given an item, return the clean text.
+    Given an item, return the clean text possibly using an external vocabulary
     """
 
     item_text = item['text']

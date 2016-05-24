@@ -11,7 +11,7 @@ Before writing to a csv file, the text is cleaned using the methods in pp_utils
 import argparse
 import json
 import csv
-from pp_utils import get_sentences_from_item
+from text_clean_utils import get_sentences_from_item
 
 
 class FoutConfig(object):

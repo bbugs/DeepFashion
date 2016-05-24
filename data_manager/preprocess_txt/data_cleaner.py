@@ -1,11 +1,9 @@
 """
-
+Create new json files with clean text and the option to use an external vocabulary (e.g., zappos)
 
 """
 import json
-from pp_utils import get_sentences_from_item
-
-
+from text_clean_utils import get_sentences_from_item
 from utils_local import utils_local
 
 
@@ -68,7 +66,7 @@ if __name__ == '__main__':
     ########################################################################################
     with_zappos = "no_zappos"
 
-    split ="test"
+    split = "test"
     dataset_fname = '../../data/fashion53k/json/dataset_dress_all_{}.json'.format(split)
     out_filename = '../../data/fashion53k/json/{}/dataset_dress_all_{}.clean.json'.format(with_zappos, split)
     dc = DataCleaner(dataset_fname=dataset_fname)
@@ -100,7 +98,7 @@ if __name__ == '__main__':
     ########################################################################################
 
     with_zappos = "with_ngrams"
-    external_vocab_fname = "../../data/fashion53k/vocab/zappos.vocab.txt"
+    external_vocab_fname = "../../data/fashion53k/external_vocab/zappos.vocab.txt"
 
     split = "test"
     dataset_fname = '../../data/fashion53k/json/dataset_dress_all_{}.json'.format(split)

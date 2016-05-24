@@ -20,7 +20,7 @@ For details about the ptb data from tensorflow see:
 import argparse
 import json
 
-from pp_utils import get_sentences_from_item
+from text_clean_utils import get_sentences_from_item
 
 
 class FoutConfig(object):

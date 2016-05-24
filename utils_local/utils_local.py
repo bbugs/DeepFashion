@@ -63,7 +63,8 @@ def savetxt_compact(fname, x, fmt="%.6g", delimiter=','):
 def create_zappos_vocabulary(fname = '../../data/fashion53k/vocab/zappos_raw_words.txt',
                              out_fname='../../data/fashion53k/vocab/zappos.vocab.txt'):
     """
-
+    Clean the raw zappos vocabulary and write to a new file.
+    ngrams are joined by _
     """
     with open(fname, 'r') as f:
         zappos_words = f.read().replace('-', ' ').replace('/', ' ').split('\n')

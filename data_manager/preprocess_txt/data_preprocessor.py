@@ -66,17 +66,6 @@ def json2rnn_format(in_json_fname, vocabulary_words, out_rnn_fname=None):
 
 if __name__ == "__main__":
 
-    # Extract vocabulary words from train json file
-    min_word_freq = 5
-    dp = DataProvider(dataset_fname="../../data/fashion53k/json/no_zappos/dataset_dress_all_train.clean.json")  # always should be the train split here to read the vocabulary.
-    vocab_words = dp.get_vocab_words_from_json(min_word_freq=min_word_freq)
 
-    # create rnn file for each split and zappos conditions
-    split = "test"  # train, val, test
-    with_zappos = "with_ngrams"  # no_zappos, with_ngrams, only_zappos
-    json_fname = "../../data/fashion53k/json/{}/dataset_dress_all_{}.clean.json".format(with_zappos, split)
-
-    rnn_fname = "../../data/fashion53k/text_4_rnn/{}/{}.rnn.txt".format(with_zappos, split)
-    json2rnn_format(json_fname, vocab_words, rnn_fname)
 
     pass

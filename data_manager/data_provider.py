@@ -1,7 +1,5 @@
 
 import json
-from utils_local import utils_local
-import numpy as np
 import csv
 import os
 import collections
@@ -112,28 +110,69 @@ class DataProvider(object):
             with open(fout_name, 'wb') as fp:
                 json.dump(split_dataset, fp, indent=4, sort_keys=True)
 
-    def json2csv_imgs(self, target_split, fout_name):
+    def json2csv(self, fieldnames, fout_name, target_split=None):
         """
         Read json file corresponding to split and write a csv file with img info:
 
-        img_id, split, folder, img_filename
+        if sentence is the fieldname, whole sentences.
+        if words is in the fieldname, then use the individual words.
 
         """
-        fieldnames = ['img_id', 'split', 'folder', 'img_filename']
+        possible_fieldnames = {'img_id', 'split', 'folder', 'img_filename',
+                               'asin', 'sentence', 'word'}
+
+        for fieldname in fieldnames:
+            if fieldname not in possible_fieldnames:
+                raise ValueError("fieldnames must be in {}".format(possible_fieldnames))
+        if 'sentence' in fieldnames and 'word' in fieldnames:
+            raise ValueError("choose either sentence or word field")
+
         csvfile = open(fout_name, 'wb')
         writer = csv.DictWriter(csvfile, fieldnames)
         writer.writeheader()
 
         for item in self.dataset['items']:
+            if target_split is not None:
+                if item['split'] != target_split:
+                    continue
             d = {}
-            d['split'] = item['split']
-            if d['split'] == target_split:
+            if 'img_id' in fieldnames:
                 d['img_id'] = item['imgid']
+            if 'split' in fieldnames:
                 d['split'] = item['split']
+            if 'folder' in fieldnames:
                 d['folder'] = item['folder']
+            if 'img_filename' in fieldnames:
                 d['img_filename'] = item['img_filename']
+            if 'asin' in fieldnames:
+                d['asin'] = item['asin']
+
+            if 'sentence' in fieldnames or 'word' in fieldnames:
+                if 'word' in fieldnames:
+                    sentences = item['text'].split('\n ')  # assume that '\n ' separates each sentence
+                    # collect words in all sentences
+                    words = []
+                    for sentence in sentences:
+                        if len(sentence) == 0:
+                            continue
+                        words.extend(sentence.split())  # split sentence into words
+                    # remove repeated words and write one word per line
+                    unique_words = set(words)
+                    for word in unique_words:
+                        d['word'] = word
+                        writer.writerow(d)
+
+                if 'sentence' in fieldnames:
+                    sentences = item['text'].split('\n ')  # assume that '\n ' separates each sentence
+                    for sentence in sentences:
+                        if len(sentence) == 0:
+                            continue
+                        if not sentence.strip().isspace():
+                            d['sentence'] = sentence
+                            writer.writerow(d)
+            else:  # neither sentence nor words are in the fieldnames
                 writer.writerow(d)
-        csvfile.close()
+
         return
 
     def json2txt_file(self, fout_name):
@@ -177,7 +216,7 @@ class DataProvider(object):
 
     def get_vocab_words_from_json(self, min_word_freq=5):
         """
-        Get vocab words from json
+        Get vocab words from json sorted by freq
         """
         all_text = self.get_all_txt_from_json()
         vocab_with_counts = get_vocabulary_words_with_counts(all_text, min_word_freq)
@@ -186,12 +225,10 @@ class DataProvider(object):
 
     def get_vocab_words_from_json_with_counts(self, min_word_freq=5):
         """
-        Get vocab words from json
+        Get vocab words from json sorted by freq
         """
         all_text = self.get_all_txt_from_json()
         return get_vocabulary_words_with_counts(all_text, min_word_freq)
-
-
 
 
 if __name__ == '__main__':
@@ -233,9 +270,14 @@ if __name__ == '__main__':
     #
     # print get_vocabulary_words_with_freq(text, min_word_freq=3)
 
-    dp = DataProvider(dataset_fname="../../data/fashion53k/json/only_zappos/dataset_dress_all_test.clean.json")
-    text = dp.get_all_txt_from_json()
-    print get_vocabulary_words_with_counts(text, min_word_freq=5)
+    # dp = DataProvider(dataset_fname="../../data/fashion53k/json/only_zappos/dataset_dress_all_test.clean.json")
+    # text = dp.get_all_txt_from_json()
+    # print get_vocabulary_words_with_counts(text, min_word_freq=5)
+
+
+    # Test json2csv
+    dp = DataProvider(dataset_fname="../../data/fashion53k/json/no_zappos/dataset_dress_all_val.clean.json")
+    dp.json2csv(['img_id', 'split', 'folder', 'img_filename', 'asin', 'word'], "tmp2.csv")
 
     pass
 

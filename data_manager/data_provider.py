@@ -110,8 +110,8 @@ class DataProvider(object):
             with open(fout_name, 'wb') as fp:
                 json.dump(split_dataset, fp, indent=4, sort_keys=True)
 
-    def json2csv(self, fieldnames, fout_name, target_split=None):
-        """
+    def json2csv(self, fieldnames, fout_name, vocabulary=None, target_split=None):
+        """(list, str, set, str) -> save csv file as fout_name
         Read json file corresponding to split and write a csv file with img info:
 
         if sentence is the fieldname, whole sentences.
@@ -156,8 +156,14 @@ class DataProvider(object):
                         if len(sentence) == 0:
                             continue
                         words.extend(sentence.split())  # split sentence into words
+
                     # remove repeated words and write one word per line
                     unique_words = set(words)
+
+                    # if a vocabulary is given, filter words by vocabulary
+                    if vocabulary is not None:
+                        unique_words = [w for w in unique_words if w in vocabulary]
+
                     for word in unique_words:
                         d['word'] = word
                         writer.writerow(d)
@@ -167,10 +173,15 @@ class DataProvider(object):
                     for sentence in sentences:
                         if len(sentence) == 0:
                             continue
-                        if not sentence.strip().isspace():
+
+                        if vocabulary is not None:
+                            sentence = " ".join([w for w in sentence.split() if w in vocabulary])
+
+                        if not sentence.isspace() and len(sentence) > 0:
                             d['sentence'] = sentence
                             writer.writerow(d)
-            else:  # neither sentence nor words are in the fieldnames
+
+            else:  # neither sentence nor words are in the fieldnames, i.e., don't deal with text
                 writer.writerow(d)
 
         return
@@ -276,9 +287,15 @@ if __name__ == '__main__':
 
 
     # Test json2csv
-    dp = DataProvider(dataset_fname="../../data/fashion53k/json/no_zappos/dataset_dress_all_val.clean.json")
-    dp.json2csv(['img_id', 'split', 'folder', 'img_filename', 'asin', 'word'], "tmp2.csv")
 
+
+    dp_train = DataProvider(dataset_fname="../../data/fashion53k/json/only_zappos/dataset_dress_all_test.clean.json")
+    vocab_train = set(dp_train.get_vocab_words_from_json(min_word_freq=5))
+
+    dp = DataProvider(dataset_fname="../../data/fashion53k/json/no_zappos/dataset_dress_all_val.clean.json")
+    dp.json2csv(['img_id', 'split', 'folder', 'img_filename', 'asin', 'sentence'], "tmp2.csv", vocab_train)
+
+    dp.json2csv(['img_id', 'split', 'folder', 'img_filename', 'asin', 'sentence'], "tmp_none_vocab.csv")
     pass
 
 

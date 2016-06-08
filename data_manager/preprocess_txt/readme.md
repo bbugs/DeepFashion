@@ -13,7 +13,7 @@ This directory contains roughly three groups of files:
 Cleaning the text on the original json files
 --------------
 
-- Read the original json file and write a new one with clean text.  There is an option to consider an external vocabulary (e.g., zappos).
+- Read the original json file and write a new json with clean text.  There is an option to consider an external vocabulary (e.g., zappos).
 
 - Now we have json files that are aware of the zappos vocabulary to various extents (no_zappos, with_ngrams, only_zappos).  Other external vocabularies can be used.
 
@@ -35,20 +35,10 @@ Simply change the split and level of zappos vocab in the main section. OR provid
 
 
 
-For creating matlab structs for Karpathy
+For creating matlab text structs for Karpathy
 --------------
 
-1) Create csv files from json:
+    $ python data_manager/preprocess_txt/clients/create_txt_structs.py
 
-    $ python data_manager/preprocess_txt/json2csv.py -z no
 
-z stands for zappos and you can choose: no, with_ngrams, only.
-
-2) Save the vocabulary file
-    
-    get_vocab_from_scv.py
-
-2) Create text matlab structs for Karpathy from csv files
-
-    create_txt_struct_4karpathy
-    
+        

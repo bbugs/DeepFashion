@@ -118,6 +118,7 @@ class DataProvider(object):
         if words is in the fieldname, then use the individual words.
 
         """
+        vocabulary = set(vocabulary)  # convert vocabulary to set in case it's a list
         possible_fieldnames = {'img_id', 'split', 'folder', 'img_filename',
                                'asin', 'sentence', 'word'}
 

@@ -1,4 +1,7 @@
 %%%%  
+%  This file is a very good start if you want to write a text structure per
+%  sentence
+
 % Load csv files with all sentences and make the structures to input into 
 % Karpathy's code
 %%%%
